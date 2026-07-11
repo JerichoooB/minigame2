@@ -1,0 +1,154 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Platform Jumper · 30 levels</title>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="game-wrapper">
+    <div class="header">
+        <div class="game-title"><i class="fas fa-gamepad"></i> Platform Jumper</div>
+        <div class="level-badge"><span id="levelDisplay">1</span>/30</div>
+        <div class="right-icons">
+            <button class="icon-btn" id="themeToggle"><i class="fas fa-moon"></i></button>
+            <button class="icon-btn" id="menuToggle"><i class="fas fa-bars"></i></button>
+        </div>
+    </div>
+
+    <div class="game-area">
+        <div class="stats-row">
+            <div class="stars-box"><i class="fas fa-star"></i> <span id="starTotal">0</span></div>
+            <div class="lives-box">
+                <span>LIVES</span>
+                <div class="hearts" id="heartsContainer"><i class="fas fa-heart"></i><i class="fas fa-heart"></i><i class="fas fa-heart"></i></div>
+            </div>
+        </div>
+
+        <canvas id="gameCanvas" width="600" height="300"></canvas>
+
+        <div class="inventory">
+            <div class="inv-item" id="useJumpBoost"><i class="fas fa-rocket"></i> <span id="jumpBoostCount">0</span></div>
+            <div class="inv-item" id="useExtraLife"><i class="fas fa-heart"></i> <span id="extraLifeCount">0</span></div>
+            <div class="inv-item" id="useShield"><i class="fas fa-shield-alt"></i> <span id="shieldCount">0</span></div>
+        </div>
+
+        <div class="controls">
+            <button class="ctrl-btn" id="leftBtn"><i class="fas fa-arrow-left"></i></button>
+            <button class="ctrl-btn" id="rightBtn"><i class="fas fa-arrow-right"></i></button>
+            <button class="ctrl-btn" id="jumpBtn"><i class="fas fa-arrow-up"></i></button>
+        </div>
+
+        <div class="email-section">
+            <input type="email" id="emailInput" class="email-input" placeholder="your email">
+            <button class="save-btn" id="saveProgressBtn"><i class="fas fa-save"></i> SAVE</button>
+            <button class="save-btn" id="loadProgressBtn"><i class="fas fa-download"></i> LOAD</button>
+        </div>
+    </div>
+
+
+
+<div class="menu-overlay" id="menuOverlay"></div>
+<div class="side-menu" id="sideMenu">
+    <div class="menu-header">
+        <span><i class="fas fa-bars"></i> MENU</span>
+        <button class="close-menu" id="closeMenu">&times;</button>
+    </div>
+
+    <div class="menu-item" id="menuShop"><i class="fas fa-store"></i> <span>SHOP</span></div>
+    <div class="panel-content" id="shopPanel">
+        <div class="shop-grid">
+            <div class="shop-item">
+                <div><i class="fas fa-star"></i> 30</div>
+                <div><i class="fas fa-rocket"></i> Jump Boost</div>
+                <button id="buyJumpBtn">BUY</button>
+            </div>
+            <div class="shop-item">
+                <div><i class="fas fa-star"></i> 50</div>
+                <div><i class="fas fa-heart"></i> Extra Life</div>
+                <button id="buyLifeBtn">BUY</button>
+            </div>
+            <div class="shop-item">
+                <div><i class="fas fa-star"></i> 40</div>
+                <div><i class="fas fa-shield-alt"></i> Shield</div>
+                <button id="buyShieldBtn">BUY</button>
+            </div>
+        </div>
+        <h4 style="color:var(--accent); margin:15px 0 5px;">BACKGROUNDS</h4>
+        <div class="background-selector" id="bgSelector"></div>
+    </div>
+
+    <div class="menu-item" id="menuLevels"><i class="fas fa-list"></i> <span>LEVELS</span></div>
+    <div class="panel-content" id="levelsPanel">
+        <div class="level-select" id="levelSelectContainer"></div>
+    </div>
+
+    <div class="menu-item" id="menuHowTo"><i class="fas fa-book-open"></i> <span>HOW TO</span></div>
+    <div class="panel-content" id="howToPanel">
+        <div class="instructions-content" style="font-size:1.2rem;">
+            <p><i class="fas fa-arrow-left"></i> <i class="fas fa-arrow-right"></i> MOVE</p>
+            <p><i class="fas fa-arrow-up"></i> JUMP (SPACE)</p>
+            <p><i class="fas fa-star"></i> STARS – 10⭐ each</p>
+            <p><i class="fas fa-flag-checkered"></i> FLAG – finish level</p>
+            <p><i class="fas fa-heart"></i> LIVES – 3, lose from spikes/fall</p>
+            <p><i class="fas fa-shield-alt"></i> SHIELD – click to activate (one hit)</p>
+            <p><i class="fas fa-rocket"></i> JUMP BOOST – click for next jump</p>
+            <p><i class="fas fa-heart"></i> EXTRA LIFE – click to add one life</p>
+            <p><i class="fas fa-store"></i> SHOP – buy power‑ups & backgrounds</p>
+            <p><i class="fas fa-redo-alt"></i> LIVES REFILL every 3 levels</p>
+        </div>
+    </div>
+
+
+<div class="modal" id="levelCompleteModal">
+    <div class="modal-content">
+        <i class="fas fa-flag-checkered"></i>
+        <h2>Level Complete!</h2>
+        <p id="completeMessage"></p>
+        <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+            <button id="nextLevelBtn"><i class="fas fa-play"></i> NEXT</button>
+            <button id="restartLevelBtn"><i class="fas fa-redo-alt"></i> RESTART</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="extraLifeModal">
+    <div class="modal-content">
+        <i class="fas fa-heart" style="color: var(--heart);"></i>
+        <h2>Use Extra Life?</h2>
+        <p id="extraLifeMessage"></p>
+        <div style="display: flex; gap: 10px; justify-content: center;">
+            <button id="confirmExtraLife"><i class="fas fa-check"></i> YES</button>
+            <button id="cancelExtraLife"><i class="fas fa-times"></i> NO</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="gameOverModal">
+    <div class="modal-content">
+        <i class="fas fa-heart-broken" style="color: var(--heart);"></i>
+        <h2>Game Over!</h2>
+        <p id="gameOverMessage"></p>
+        <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+            <button id="gameOverRestart"><i class="fas fa-redo-alt"></i> RESTART LEVEL</button>
+            <button id="gameOverMenu"><i class="fas fa-bars"></i> MENU</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="saveModal">
+    <div class="modal-content">
+        <i class="fas fa-star"></i>
+        <h2 id="modalMessage"></h2>
+        <button id="modalCloseBtn"><i class="fas fa-check"></i> OK</button>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
