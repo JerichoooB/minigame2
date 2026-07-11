@@ -1,0 +1,496 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    user-select: none;
+    image-rendering: pixelated;
+}
+
+:root {
+    --bg-page: #8bac7f;
+    --header-bg: #5f814f;
+    --game-bg: #9bbc7b;
+    --footer-bg: #5f814f;
+    --text: #2d3a2a;
+    --accent: #3b5e2b;
+    --accent-light: #7caf5a;
+    --border-light: #4a6b3f;
+    --shadow: #1f2a1a;
+    --glass: rgba(155, 188, 123, 0.9);
+    --heart: #d14b4b;
+    --star: #f5c542;
+}
+
+body.dark {
+    --bg-page: #2a3a2a;
+    --header-bg: #1f2f1f;
+    --game-bg: #2f452f;
+    --footer-bg: #1f2f1f;
+    --text: #c0d0b0;
+    --accent: #6f9a5f;
+    --accent-light: #8ab57a;
+    --border-light: #4a6a4a;
+    --shadow: #0f1a0f;
+    --glass: rgba(47,69,47,0.9);
+}
+
+body {
+    background: var(--bg-page);
+    font-family: 'VT323', monospace;
+    font-size: 20px;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 16px;
+    transition: background 0.2s;
+    color: var(--text);
+    image-rendering: pixelated;
+}
+
+.game-wrapper {
+    width: 100%;
+    max-width: 720px;
+    border: 4px solid var(--shadow);
+    box-shadow: 8px 8px 0 var(--shadow);
+    background: var(--game-bg);
+}
+
+.header {
+    background: var(--header-bg);
+    padding: 12px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 4px solid var(--shadow);
+    font-size: 1.4rem;
+}
+
+.game-title {
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: var(--text);
+    text-shadow: 2px 2px 0 var(--shadow);
+}
+.game-title i {
+    color: var(--star);
+    margin-right: 8px;
+}
+
+.level-badge {
+    background: var(--glass);
+    padding: 4px 12px;
+    border: 2px solid var(--shadow);
+    box-shadow: 2px 2px 0 var(--shadow);
+}
+
+.right-icons {
+    display: flex;
+    gap: 8px;
+}
+.icon-btn {
+    background: var(--glass);
+    border: 2px solid var(--shadow);
+    width: 42px;
+    height: 42px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: var(--text);
+    box-shadow: 2px 2px 0 var(--shadow);
+    transition: 0.05s linear;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.icon-btn:active {
+    transform: translate(2px, 2px);
+    box-shadow: none;
+}
+
+.game-area {
+    background: var(--game-bg);
+    padding: 20px 16px 16px;
+}
+
+.stats-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.stars-box, .lives-box {
+    background: var(--glass);
+    border: 2px solid var(--shadow);
+    box-shadow: 2px 2px 0 var(--shadow);
+    padding: 6px 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1.2rem;
+}
+
+.hearts i {
+    color: var(--heart);
+    margin-right: 2px;
+}
+
+canvas {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 600/300;
+    border: 4px solid var(--shadow);
+    box-shadow: 4px 4px 0 var(--shadow);
+    background: linear-gradient(145deg, #7ab5ff, #4f7fff);
+    image-rendering: pixelated;
+    touch-action: none;
+    margin-bottom: 20px;
+}
+
+.inventory {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin: 20px 0 15px;
+    flex-wrap: wrap;
+}
+.inv-item {
+    background: var(--glass);
+    border: 2px solid var(--shadow);
+    box-shadow: 2px 2px 0 var(--shadow);
+    padding: 6px 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: 0.05s linear;
+    font-size: 1.2rem;
+}
+.inv-item:active {
+    transform: translate(2px, 2px);
+    box-shadow: none;
+}
+
+.controls {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin: 15px 0 20px;
+}
+.ctrl-btn {
+    background: var(--glass);
+    border: 2px solid var(--shadow);
+    box-shadow: 2px 2px 0 var(--shadow);
+    color: var(--text);
+    font-weight: bold;
+    padding: 8px 0;
+    width: 70px;
+    cursor: pointer;
+    font-size: 2rem;
+    transition: 0.05s linear;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.ctrl-btn:active {
+    transform: translate(2px, 2px);
+    box-shadow: none;
+}
+
+.email-section {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 10px 0 0;
+}
+.email-input {
+    background: var(--glass);
+    border: 2px solid var(--shadow);
+    box-shadow: 2px 2px 0 var(--shadow);
+    padding: 8px 16px;
+    color: var(--text);
+    font-size: 1rem;
+    width: 220px;
+    outline: none;
+    font-family: 'VT323', monospace;
+}
+.email-input::placeholder {
+    color: var(--text);
+    opacity: 0.7;
+}
+.save-btn {
+    background: var(--accent);
+    border: 2px solid var(--shadow);
+    box-shadow: 2px 2px 0 var(--shadow);
+    color: white;
+    padding: 8px 20px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.05s linear;
+    font-size: 1.2rem;
+}
+.save-btn:active {
+    transform: translate(2px, 2px);
+    box-shadow: none;
+}
+
+.footer {
+    background: var(--footer-bg);
+    padding: 12px 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    border-top: 4px solid var(--shadow);
+    font-size: 1.2rem;
+}
+.guga {
+    letter-spacing: 2px;
+}
+.footer a {
+    color: var(--text);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.menu-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.5);
+    visibility: hidden;
+    opacity: 0;
+    transition: 0.2s;
+    z-index: 100;
+}
+.menu-overlay.visible {
+    visibility: visible;
+    opacity: 1;
+}
+.side-menu {
+    position: fixed;
+    top: 0; right: -300px;
+    width: 280px;
+    height: 100%;
+    background: var(--game-bg);
+    border-left: 4px solid var(--shadow);
+    padding: 24px 16px;
+    transition: right 0.2s;
+    z-index: 101;
+    overflow-y: auto;
+}
+.side-menu.open {
+    right: 0;
+}
+.menu-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    font-size: 1.8rem;
+    border-bottom: 2px solid var(--shadow);
+    padding-bottom: 8px;
+}
+.close-menu {
+    background: none;
+    border: 2px solid var(--shadow);
+    font-size: 2rem;
+    color: var(--text);
+    cursor: pointer;
+    width: 42px;
+    height: 42px;
+}
+.menu-item {
+    background: var(--glass);
+    border: 2px solid var(--shadow);
+    box-shadow: 2px 2px 0 var(--shadow);
+    margin-bottom: 20px;
+    padding: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    transition: 0.05s linear;
+}
+.menu-item:active {
+    transform: translate(2px, 2px);
+    box-shadow: none;
+}
+.panel-content {
+    background: var(--glass);
+    border: 2px solid var(--shadow);
+    padding: 16px;
+    margin-bottom: 20px;
+    display: none;
+}
+.shop-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+}
+.shop-item {
+    background: var(--game-bg);
+    border: 2px solid var(--shadow);
+    padding: 10px;
+    text-align: center;
+    min-width: 100px;
+}
+.shop-item button {
+    background: var(--accent);
+    border: 2px solid var(--shadow);
+    color: white;
+    padding: 4px 10px;
+    margin-top: 8px;
+    cursor: pointer;
+    font-family: 'VT323', monospace;
+    font-size: 1rem;
+}
+.shop-item button:active {
+    transform: translate(2px, 2px);
+}
+.background-selector {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin-top: 10px;
+}
+.bg-option {
+    width: 60px;
+    height: 45px;
+    border: 2px solid var(--shadow);
+    cursor: pointer;
+}
+.bg-option.selected {
+    border-color: var(--star);
+}
+.level-select {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    max-height: 300px;
+    overflow-y: auto;
+}
+.level-btn {
+    background: var(--game-bg);
+    border: 2px solid var(--shadow);
+    width: 55px;
+    height: 55px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+.level-btn.completed {
+    background: var(--accent);
+    color: white;
+}
+
+.about-content {
+    max-height: 300px;
+    overflow-y: auto;
+    padding-right: 8px;
+    font-size: 1.1rem;
+    line-height: 1.3;
+    white-space: pre-wrap;
+}
+.about-content h2 {
+    font-size: 1.5rem;
+    margin: 10px 0 5px;
+    color: var(--accent);
+}
+.about-content h3 {
+    font-size: 1.3rem;
+    margin: 15px 0 5px;
+    color: var(--accent);
+}
+.about-content h4 {
+    font-size: 1.2rem;
+    margin: 10px 0 3px;
+    color: var(--accent);
+}
+.about-content p {
+    margin-bottom: 12px;
+}
+.about-content ul, .about-content ol {
+    margin-left: 20px;
+    margin-bottom: 12px;
+}
+.about-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0;
+}
+.about-content th, .about-content td {
+    border: 1px solid var(--shadow);
+    padding: 5px;
+    text-align: left;
+}
+.about-content th {
+    background: var(--accent-light);
+    color: white;
+}
+.about-content code {
+    background: var(--shadow);
+    color: var(--star);
+    padding: 2px 4px;
+    border-radius: 3px;
+}
+
+.modal {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 200;
+    visibility: hidden;
+    opacity: 0;
+    transition: 0.2s;
+}
+.modal.visible {
+    visibility: visible;
+    opacity: 1;
+}
+.modal-content {
+    background: var(--game-bg);
+    border: 4px solid var(--shadow);
+    box-shadow: 8px 8px 0 var(--shadow);
+    padding: 30px 25px;
+    text-align: center;
+    max-width: 380px;
+}
+.modal-content i {
+    font-size: 3rem;
+    color: var(--star);
+    margin-bottom: 10px;
+}
+.modal-content h2 {
+    margin-bottom: 10px;
+}
+.modal-content button {
+    background: var(--accent);
+    border: 2px solid var(--shadow);
+    box-shadow: 2px 2px 0 var(--shadow);
+    color: white;
+    padding: 10px 20px;
+    margin: 5px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: 0.05s linear;
+    font-family: 'VT323', monospace;
+}
+.modal-content button:active {
+    transform: translate(2px, 2px);
+    box-shadow: none;
+}
